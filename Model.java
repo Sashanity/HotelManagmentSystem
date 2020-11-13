@@ -13,6 +13,7 @@ public class Model {
     }
 
     public void displayReservationsByDate(LocalDateTime fromDate, LocalDateTime toDate){
+        dbWrapper.getReservationsById(1);
         // ResultSet resultSet = dbWrapper.getReservationsById(1); // demo
     }
 }
