@@ -13,7 +13,7 @@ public class TerminalConsole {
     private static final String DISPLAY_WRONG_INPUT = "\nWrong input. Please try again.\n";
     private static final String INVALID_SELECTION = "Invalid selection. Please try again.\n";
     private static final String DISPLAY_GUEST_SUBMENU = "\n\tXXXX MENU\nPlease choose from the following:\n"+
-            "[W]hatever\n[B]ack\n";
+            "[W]hatever\n[A]nother whatever\n[B]ack\n";
     private static final String DISPLAY_RESERVATIONS_MENU = "\n\tXXX MENU\nPlease choose from the following:\n"+
             "[W]hatever\n[B]ack\n";
     private static final String DISPLAY_CHECKIN_SUBMENU = "\n\tXXX MENU\nPlease choose from the following:\n"+
