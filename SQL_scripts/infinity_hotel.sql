@@ -1,7 +1,6 @@
-/* INITIALIZATION */
-DROP DATABASE IF EXISTS infinity_hotel;
-CREATE DATABASE infinity_hotel;
-USE infinity_hotel;
+drop database if exists infinity_hotel;
+create database infinity_hotel;
+use infinity_hotel;
 
 /* DCL */
 CREATE USER 'hoteluser'@'localhost' IDENTIFIED BY 'p123456d';
