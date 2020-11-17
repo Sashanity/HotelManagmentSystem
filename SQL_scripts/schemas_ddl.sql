@@ -1,6 +1,7 @@
 -- drop database if exists infinity_hotel;
 -- create database infinity_hotel;
 -- use infinity_hotel;
+
 use infinity_hotel;
 
 drop table if exists Rooms;
