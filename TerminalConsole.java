@@ -12,14 +12,14 @@ public class TerminalConsole {
     private static final String DISPLAY_PROMPT = "Enter your choice and press enter: ";
     private static final String DISPLAY_WRONG_INPUT = "\nWrong input. Please try again.\n";
     private static final String INVALID_SELECTION = "Invalid selection. Please try again.\n";
-    private static final String DISPLAY_GUEST_SUBMENU = "\n\tXXXX MENU\nPlease choose from the following:\n"+
-            "[W]hatever\n[A]nother whatever\n[B]ack\n";
-    private static final String DISPLAY_RESERVATIONS_MENU = "\n\tXXX MENU\nPlease choose from the following:\n"+
-            "[W]hatever\n[B]ack\n";
+    private static final String DISPLAY_GUEST_SUBMENU = "\n\tGUEST MANAGEMENT MENU\nPlease choose from the following:\n"+
+            "[S]earch for a guest by ID\n[B]ack\n";
+    private static final String DISPLAY_RESERVATIONS_MENU = "\n\tRESERVATIONS MENU\nPlease choose from the following:\n"+
+            "[C]reate new reservation\n[F]ind reservation by ID\n[B]ack\n";
     private static final String DISPLAY_CHECKIN_SUBMENU = "\n\tXXX MENU\nPlease choose from the following:\n"+
             "[W]hatever\n[B]ack\n";
-    private static final String DISPLAY_MAINTAINANCE_SUBMENU = "\n\tXXX MENU\nPlease choose from the following:\n"+
-            "[W]hatever\n[B]ack\n";
+    private static final String DISPLAY_MAINTAINANCE_SUBMENU = "\n\tMAINTENANCE MENU\nPlease choose from the following:\n"+
+            "[G]et room by ID\n[B]ack\n";
     private static final String DISPLAY_KEYING_SUBMENU = "\n\tXXX MENU\nPlease choose from the following:\n"+
             "[W]hatever\n[B]ack\n";
     private static final String DISPLAY_OTHERS_SUBMENU = "\n\tXXX MENU\nPlease choose from the following:\n"+
@@ -63,21 +63,38 @@ public class TerminalConsole {
             input = displayPrompt(DISPLAY_MAIN_MENU);
             switch (input.toLowerCase()){
                 case "r": input = displayPrompt(DISPLAY_RESERVATIONS_MENU);
-                    if (input.equals("d")) {
-
-                    }
-                    else if (input.equals("m")) {
-
-                    }
-                    else display(DISPLAY_WRONG_INPUT);
-                    break;
+                    if (input.toLowerCase().equals("c")) {
+                        input = displayPrompt("Insert a new transaction as... ");
+                    } else if (input.toLowerCase().equals("f") ){
+                        input = displayPrompt("Search resrvation by id. ");
+                        if (input.matches("[0-9]+")) {
+                            model.displayReservationsById(Integer.valueOf(input));
+                        } else display(DISPLAY_WRONG_INPUT);
+                    } else
+                        break;
                 case "c": input = displayPrompt(DISPLAY_CHECKIN_SUBMENU);
                     String[] subInputArr = new String[6];
                     break;
-                case "g": input = displayPrompt(DISPLAY_GUEST_SUBMENU); break;
+                case "g": input = displayPrompt(DISPLAY_GUEST_SUBMENU);
+                    if (input.toLowerCase().equals("e")) {
+                        input = displayPrompt("Insert a new guest as... ");
+                    } else if (input.toLowerCase().equals("s") ){
+                        input = displayPrompt("Search for guest by ID. ");
+                        if (input.matches("[0-9]+")) {
+                            model.displayGuestById(Integer.valueOf(input));
+                        } else display(DISPLAY_WRONG_INPUT);
+                    } else
+                        break;
                 case "m": input = displayPrompt(DISPLAY_MAINTAINANCE_SUBMENU);
-                subInputArr = new String[2];
-                    break;
+                    if (input.toLowerCase().equals("e")) {
+                        input = displayPrompt("Insert a new guest as... ");
+                    } else if (input.toLowerCase().equals("g") ){
+                        input = displayPrompt("Search room type by room number. ");
+                        if (input.matches("[0-9]+")) {
+                            model.displayRoomTypeById(Integer.valueOf(input));
+                        } else display(DISPLAY_WRONG_INPUT);
+                    } else
+                        break;
                 case "k": input = displayPrompt(DISPLAY_KEYING_SUBMENU);
                     displayPrompt(DISPLAY_GET_DATE);
                     break;
