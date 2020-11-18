@@ -9,3 +9,13 @@ create table ReservationsArchive(
 	numPeople INT,
 	totalDue DOUBLE NOT NULL,
 )
+
+-- create an archive for transactions
+create table TransactionsArchive(
+	transID INT NOT NULL PRIMARY KEY,
+	bookingID INT,
+	type VARCHAR(30),
+	time_stamp  TIMESTAMP NOT NULL,
+	sID INT
+) 
+
