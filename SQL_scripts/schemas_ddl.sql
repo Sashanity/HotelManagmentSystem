@@ -41,6 +41,16 @@ create table ServiceRoom(
 	FOREIGN KEY (roomID) REFERENCES Rooms (roomID)
 );
 
+drop table if exists ServiceRequest;
+create table ServiceRequest(
+	reqID INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	roomID INT,
+	serviceType VARCHAR(30),
+	time_stamp  TIMESTAMP NOT NULL,
+	status BOOL,
+	FOREIGN KEY (roomID) REFERENCES Rooms (roomID)
+)AUTO_INCREMENT = 0000;
+
 drop table if exists RoomKeys;
 create table RoomKeys(
 	roomID INT,
@@ -78,6 +88,8 @@ create table Transactions(
 ) AUTO_INCREMENT = 0000;
 
 
+
+drop table if exists TransactionsArchive;
 create table TransactionsArchive(
 	transID INT NOT NULL PRIMARY KEY,
 	bookingID INT,

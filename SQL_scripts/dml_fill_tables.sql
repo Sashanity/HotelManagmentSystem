@@ -130,3 +130,5 @@ insert into RoomKeys values(101,1,'pwd123');
 
 -- source C:\Users\Aleksandra\Desktop\Study\SJSU\Fall 2020\CS_157A\HotelManagmentSystem\SQL_scripts\schemas_ddl.sql
 -- source C:\Users\Aleksandra\Desktop\Study\SJSU\Fall 2020\CS_157A\HotelManagmentSystem\SQL_scripts\dml_fill_tables.sql
+
+
