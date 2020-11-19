@@ -60,8 +60,9 @@ create table Reservations(
 	endDate DATE NOT NULL,
 	numPeople INT,
 	totalDue DOUBLE NOT NULL,
-	FOREIGN KEY (gID) REFERENCES Guests (gID),
-	FOREIGN KEY (roomID) REFERENCES Rooms (roomID)
+	CONSTRAINT FOREIGN KEY (gID) REFERENCES Guests (gID) ON DELETE CASCADE,
+	CONSTRAINT FOREIGN KEY (roomID) REFERENCES Rooms (roomID) ON DELETE CASCADE
+	-- created_on DATETIME NOT NULL DEFAULT NOW()
 ) AUTO_INCREMENT = 0000;
 
 
@@ -72,6 +73,27 @@ create table Transactions(
 	type VARCHAR(30),
 	time_stamp  TIMESTAMP NOT NULL,
 	sID INT,
-	FOREIGN KEY (sID) REFERENCES Staff (sID),
-	FOREIGN KEY (bookingID) REFERENCES Reservations (bookingID)
+	CONSTRAINT FOREIGN KEY (sID) REFERENCES Staff (sID) ON DELETE NO ACTION,
+	FOREIGN KEY (bookingID) REFERENCES Reservations (bookingID) 
 ) AUTO_INCREMENT = 0000;
+
+
+create table TransactionsArchive(
+	transID INT NOT NULL PRIMARY KEY,
+	bookingID INT,
+	type VARCHAR(30),
+	time_stamp  TIMESTAMP NOT NULL,
+	sID INT
+);
+
+DELIMITER $$
+
+CREATE PROCEDURE archiveTransactions(IN cutOff date)
+BEGIN
+	insert into TransactionsArchive
+	select * from Transactions where date(time_stamp)<=cutOff
+	for update;
+	delete from Transactions where date(time_stamp)<=cutOff;
+END $$
+
+DELIMITER ;
