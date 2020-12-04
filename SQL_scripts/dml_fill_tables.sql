@@ -76,38 +76,38 @@ insert into Guests values(null,'Linda','Levine');
 
 -- create Service room records
 
-insert into ServiceRoom values(101,'cleaning', 12351, '2020-11-15');
-insert into ServiceRoom values(102,'cleaning', 12351, '2020-11-15');
-insert into ServiceRoom values(103,'cleaning', 12352, '2020-11-15');
-insert into ServiceRoom values(104,'cleaning', 12352, '2020-11-15');
-insert into ServiceRoom values(105,'cleaning', 12352, '2020-11-15');
-insert into ServiceRoom values(106,'cleaning', 12354, '2020-11-15');
-insert into ServiceRoom values(107,'cleaning', 12354, '2020-11-15');
-insert into ServiceRoom values(108,'cleaning', 12353, '2020-11-15');
-insert into ServiceRoom values(109,'cleaning', 12353, '2020-11-15');
-insert into ServiceRoom values(110,'cleaning', 12351, '2020-11-15');
-insert into ServiceRoom values(111,'cleaning', 12352, '2020-11-15');
-insert into ServiceRoom values(112,'cleaning', 12352, '2020-11-15');
-insert into ServiceRoom values(113,'cleaning', 12353, '2020-11-15');
-insert into ServiceRoom values(114,'cleaning', 12353, '2020-11-15');
-insert into ServiceRoom values(115,'cleaning', 12353, '2020-11-15');
-insert into ServiceRoom values(116,'cleaning', 12354, '2020-11-15');
-insert into ServiceRoom values(117,'cleaning', 12354, '2020-11-15');
-insert into ServiceRoom values(118,'cleaning', 12351, '2020-11-15');
-insert into ServiceRoom values(201,'cleaning', 12354, '2020-11-15');
-insert into ServiceRoom values(202,'cleaning', 12351, '2020-11-15');
-insert into ServiceRoom values(203,'cleaning', 12351, '2020-11-15');
-insert into ServiceRoom values(204,'cleaning', 12352, '2020-11-15');
-insert into ServiceRoom values(205,'cleaning', 12354, '2020-11-15');
-insert into ServiceRoom values(206,'cleaning', 12353, '2020-11-15');
-insert into ServiceRoom values(207,'cleaning', 12351, '2020-11-15');
-insert into ServiceRoom values(208,'cleaning', 12352, '2020-11-15');
-insert into ServiceRoom values(301,'cleaning', 12352, '2020-11-15');
-insert into ServiceRoom values(302,'cleaning', 12351, '2020-11-15');
-insert into ServiceRoom values(303,'cleaning', 12354, '2020-11-15');
-insert into ServiceRoom values(304,'cleaning', 12351, '2020-11-15');
-insert into ServiceRoom values(305,'cleaning', 12352, '2020-11-15');
-insert into ServiceRoom values(405,'cleaning', 12354, '2020-11-15');
+-- insert into ServiceRoom values(101,'cleaning', 12351, '2020-11-15');
+-- insert into ServiceRoom values(102,'cleaning', 12351, '2020-11-15');
+-- insert into ServiceRoom values(103,'cleaning', 12352, '2020-11-15');
+-- insert into ServiceRoom values(104,'cleaning', 12352, '2020-11-15');
+-- insert into ServiceRoom values(105,'cleaning', 12352, '2020-11-15');
+-- insert into ServiceRoom values(106,'cleaning', 12354, '2020-11-15');
+-- insert into ServiceRoom values(107,'cleaning', 12354, '2020-11-15');
+-- insert into ServiceRoom values(108,'cleaning', 12353, '2020-11-15');
+-- insert into ServiceRoom values(109,'cleaning', 12353, '2020-11-15');
+-- insert into ServiceRoom values(110,'cleaning', 12351, '2020-11-15');
+-- insert into ServiceRoom values(111,'cleaning', 12352, '2020-11-15');
+-- insert into ServiceRoom values(112,'cleaning', 12352, '2020-11-15');
+-- insert into ServiceRoom values(113,'cleaning', 12353, '2020-11-15');
+-- insert into ServiceRoom values(114,'cleaning', 12353, '2020-11-15');
+-- insert into ServiceRoom values(115,'cleaning', 12353, '2020-11-15');
+-- insert into ServiceRoom values(116,'cleaning', 12354, '2020-11-15');
+-- insert into ServiceRoom values(117,'cleaning', 12354, '2020-11-15');
+-- insert into ServiceRoom values(118,'cleaning', 12351, '2020-11-15');
+-- insert into ServiceRoom values(201,'cleaning', 12354, '2020-11-15');
+-- insert into ServiceRoom values(202,'cleaning', 12351, '2020-11-15');
+-- insert into ServiceRoom values(203,'cleaning', 12351, '2020-11-15');
+-- insert into ServiceRoom values(204,'cleaning', 12352, '2020-11-15');
+-- insert into ServiceRoom values(205,'cleaning', 12354, '2020-11-15');
+-- insert into ServiceRoom values(206,'cleaning', 12353, '2020-11-15');
+-- insert into ServiceRoom values(207,'cleaning', 12351, '2020-11-15');
+-- insert into ServiceRoom values(208,'cleaning', 12352, '2020-11-15');
+-- insert into ServiceRoom values(301,'cleaning', 12352, '2020-11-15');
+-- insert into ServiceRoom values(302,'cleaning', 12351, '2020-11-15');
+-- insert into ServiceRoom values(303,'cleaning', 12354, '2020-11-15');
+-- insert into ServiceRoom values(304,'cleaning', 12351, '2020-11-15');
+-- insert into ServiceRoom values(305,'cleaning', 12352, '2020-11-15');
+-- insert into ServiceRoom values(405,'cleaning', 12354, '2020-11-15');
 
 
 -- create reservation
@@ -121,8 +121,8 @@ insert into Reservations values(null,4,106,'2020-11-16','2020-11-20',1,2000.00);
 -- create transaction
 
 -- SET time_zone='+00:00';
-insert into Transactions values(null, 1, 'check in', '2020-11-16 13:00:01',12341);
-insert into Transactions values(null, 1, 'check out', '2020-11-18 12:00:01',12342);
+insert into Transactions values(null, 2, 'check in', '2020-11-16 13:00:01',12341);
+insert into Transactions values(null, 2, 'check out', '2020-11-18 12:00:01',12342);
 
 -- create a Key for a guest
 

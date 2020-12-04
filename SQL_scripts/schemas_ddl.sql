@@ -30,17 +30,6 @@ create table Staff(
 	lastN VARCHAR(30),
 	role VARCHAR(30)
 );	
-
-drop table if exists ServiceRoom;
-create table ServiceRoom(
-	roomID INT,
-	serviceType VARCHAR(30),
-	sID INT,
-	serviceDate DATE DEFAULT '0000-00-00',
-	FOREIGN KEY (sID) REFERENCES Staff (sID),
-	FOREIGN KEY (roomID) REFERENCES Rooms (roomID)
-);
-
 drop table if exists ServiceRequest;
 create table ServiceRequest(
 	reqID INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -51,12 +40,23 @@ create table ServiceRequest(
 	FOREIGN KEY (roomID) REFERENCES Rooms (roomID)
 )AUTO_INCREMENT = 0000;
 
+drop table if exists ServiceRoom;
+create table ServiceRoom(
+	roomID INT,
+	reqID INT,
+	sID INT,
+	serviceDate DATE DEFAULT '0000-00-00',
+	FOREIGN KEY (sID) REFERENCES Staff (sID),
+	FOREIGN KEY (roomID) REFERENCES Rooms (roomID),
+	FOREIGN KEY (reqID) REFERENCES ServiceRequest (reqID)
+);
+
 drop table if exists RoomKeys;
 create table RoomKeys(
 	roomID INT,
 	gID INT,
 	keyPassword VARCHAR(30),
-	CONSTRAINT FOREIGN KEY (gID) REFERENCES Guests (gID) ON DELETE NO ACTION,
+	CONSTRAINT FOREIGN KEY (gID) REFERENCES Guests (gID) ON DELETE CASCADE,
 	CONSTRAINT FOREIGN KEY (roomID) REFERENCES Rooms (roomID) ON DELETE NO ACTION
 );
 

@@ -15,4 +15,39 @@
 --     when (type='check out')     
 --     DELETE FROM Reservations WHERE bookingID=new.bookingID;
  
+DELIMITER $$
+drop trigger if exists service;
+CREATE TRIGGER service
+    AFTER INSERT
+    ON ServiceRoom
+    FOR EACH ROW
+    BEGIN
+        update ServiceRequest set status=true where reqID=new.reqID;
+        update ServiceRequest set time_stamp=NOW() where reqID=new.reqID;
+    END; $$
+DELIMITER ;
 
+-- DELIMITER $$
+-- drop trigger if exists rmReservation;
+-- CREATE TRIGGER rmReservation
+--     AFTER INSERT
+--     ON Transactions
+--     FOR EACH ROW
+--     BEGIN
+--         delete from Reservations where bookingID=new.bookingID and endDate<=NOW();
+--     END; $$
+-- DELIMITER ;
+
+
+
+ DELIMITER $$
+drop trigger if exists rmReservation;
+CREATE TRIGGER rmReservation
+    AFTER DELETE
+    ON Reservations
+    FOR EACH ROW
+    BEGIN
+        delete from Guests where gID=old.gID;
+        delete from RoomKeys where gID=old.gID;
+    END; $$
+DELIMITER ;
