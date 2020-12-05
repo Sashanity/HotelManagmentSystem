@@ -13,13 +13,21 @@ public class DbWrapper {
         this.connection = connection;
     }
 
-    void insertToDb(String sqlQuery){
+    ResultSet insertToDb(String sqlQuery){
+        ResultSet resultSet = null;
         try {
             Statement statement = connection.createStatement();
-            statement.executeUpdate(sqlQuery);
+            int result = statement.executeUpdate(sqlQuery);
+            if (result != 0){
+                resultSet = statement.getGeneratedKeys();
+            } else
+                throw new SQLException("New data has not been inserted");
         } catch (SQLException sqlException){
             System.out.println("Error with SQL: DbWrapper.insertToDb, with query: " + sqlQuery);
+            sqlException.getMessage();
             sqlException.printStackTrace();
+        } finally {
+            return resultSet;
         }
     }
 
