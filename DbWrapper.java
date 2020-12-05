@@ -13,42 +13,31 @@ public class DbWrapper {
         this.connection = connection;
     }
 
-    ResultSet getReservationsById(int reservationId){
+    ResultSet insertToDb(String sqlQuery){
         ResultSet resultSet = null;
         try {
-            String sqlQuery = "SELECT * FROM Reservations WHERE bookingID=" + String.valueOf(reservationId) ;
             Statement statement = connection.createStatement();
-            resultSet = statement.executeQuery(sqlQuery);
+            int result = statement.executeUpdate(sqlQuery);
+            if (result != 0){
+                resultSet = statement.getGeneratedKeys();
+            } else
+                throw new SQLException("New data has not been inserted");
         } catch (SQLException sqlException){
-            System.out.println("Error with SQL query");
+            System.out.println("Error with SQL: DbWrapper.insertToDb, with query: " + sqlQuery);
+            sqlException.getMessage();
             sqlException.printStackTrace();
         } finally {
             return resultSet;
         }
     }
 
-    ResultSet getRoomById(int roomId){
+    ResultSet retrieveFromDb(String sqlQuery){
         ResultSet resultSet = null;
         try {
-            String sqlQuery = "SELECT * FROM Rooms WHERE roomID=" + String.valueOf(roomId) ;
             Statement statement = connection.createStatement();
             resultSet = statement.executeQuery(sqlQuery);
         } catch (SQLException sqlException){
-            System.out.println("Error with SQL query");
-            sqlException.printStackTrace();
-        } finally {
-            return resultSet;
-        }
-    }
-
-    ResultSet getGuestById(int gID){
-        ResultSet resultSet = null;
-        try {
-            String sqlQuery = "SELECT * FROM Guests WHERE gID=" + String.valueOf(gID) ;
-            Statement statement = connection.createStatement();
-            resultSet = statement.executeQuery(sqlQuery);
-        } catch (SQLException sqlException){
-            System.out.println("Error with SQL query");
+            System.out.println("Error with SQL: DbWrapper.retrieveFromDb, with query: " + sqlQuery);
             sqlException.printStackTrace();
         } finally {
             return resultSet;
