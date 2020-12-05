@@ -12,7 +12,7 @@ create table Rooms(
 drop table if exists RoomTypes;
 create table RoomTypes(
 	type VARCHAR(30),
-	rate FLOAT
+	rate FLOAT(10,2)
 );	
 
 drop table if exists Guests;
@@ -69,7 +69,7 @@ create table Reservations(
 	startDate DATE NOT NULL,
 	endDate DATE NOT NULL,
 	numPeople INT,
-	totalDue DOUBLE NOT NULL,
+	totalDue FLOAT(10,2) NOT NULL,
 	CONSTRAINT FOREIGN KEY (gID) REFERENCES Guests (gID) ON DELETE CASCADE,
 	CONSTRAINT FOREIGN KEY (roomID) REFERENCES Rooms (roomID) ON DELETE CASCADE
 	-- created_on DATETIME NOT NULL DEFAULT NOW()

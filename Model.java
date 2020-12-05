@@ -27,7 +27,10 @@ public class Model {
             String query = "INSERT INTO Reservations(gID, roomID, startDate, endDate, numPeople, totalDue) VALUES (" +
                     guestId + "," + roomId + ",'" + startDate + "','" + endDate + "'," +
                     numberOfPeople + "," + String.valueOf(days*roomRate) + ") ";
-            dbWrapper.insertToDb(query);
+            resultSet = dbWrapper.insertToDb(query);
+            resultSet.next();
+            System.out.println("Succesfully created reservation with the following details:\n");
+            displayReservationsById(resultSet.getInt(1));
         } catch (SQLException sqlException){
             System.out.println("Error getting room rate. In Model.createReservation");
             sqlException.printStackTrace();
@@ -44,6 +47,7 @@ public class Model {
                 System.out.println("No results is database\n");
             } else {
                 do {
+                    String costString = String.format("%.02f",resultSet.getFloat(7));
                     System.out.println(
                             "Transaction ID: " + resultSet.getInt(1)
                                     + ", Guest ID: " + resultSet.getInt(2)
@@ -51,7 +55,7 @@ public class Model {
                                     + ", Start date: "  + resultSet.getString(4)
                                     + ", End date: "  + resultSet.getString(5)
                                     + ", Number of people: "  + resultSet.getInt(6)
-                                    + ", Total cost: $"  + resultSet.getFloat(7)
+                                    + ", Total cost: $"  + costString
                     );
                 } while (resultSet.next());
             }
