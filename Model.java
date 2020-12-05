@@ -40,31 +40,6 @@ public class Model {
     }
 
 
-    public void displayReservationsById(int id){
-        try {
-            ResultSet resultSet = dbWrapper.retrieveFromDb("SELECT * FROM Reservations WHERE bookingID=" + String.valueOf(id));
-            if ( resultSet.next() == false) {
-                System.out.println("No results is database\n");
-            } else {
-                do {
-                    String costString = String.format("%.02f",resultSet.getFloat(7));
-                    System.out.println(
-                            "Transaction ID: " + resultSet.getInt(1)
-                                    + ", Guest ID: " + resultSet.getInt(2)
-                                    + ", Room number: "  + resultSet.getInt(3)
-                                    + ", Start date: "  + resultSet.getString(4)
-                                    + ", End date: "  + resultSet.getString(5)
-                                    + ", Number of people: "  + resultSet.getInt(6)
-                                    + ", Total cost: $"  + costString
-                    );
-                } while (resultSet.next());
-            }
-        }
-        catch (SQLException sqlException){
-            System.out.println("Error with SQL query");
-            sqlException.printStackTrace();
-        }
-    }
 
     public void displayRoomTypeById(int id){
         try {
@@ -105,7 +80,99 @@ public class Model {
         }
     }
 
-    public void displayReservationsByDate(LocalDateTime fromDate, LocalDateTime toDate){
-        // ResultSet resultSet = dbWrapper.getReservationsById(1); // demo
+    public void displayReservationsByDates(LocalDate startDate, LocalDate endDate) {
+        try {
+            ResultSet resultSet = dbWrapper.retrieveFromDb("SELECT * FROM Reservations WHERE startDate BETWEEN '" +
+                    startDate + "' AND '" + endDate + "' OR endDate BETWEEN '" + startDate + "' AND '" + endDate + "'");
+            if ( resultSet.next() == false) {
+                System.out.println("No results is database\n");
+            } else {
+                do {
+                    displayReservationsById(resultSet.getInt(1));
+                } while (resultSet.next());
+            }
+        }
+        catch (SQLException sqlException){
+            System.out.println("Error with SQL query");
+            sqlException.printStackTrace();
+        }
+    }
+
+
+    public void displayReservationsById(int id){
+        try {
+            ResultSet resultSet = dbWrapper.retrieveFromDb("SELECT * FROM Reservations WHERE bookingID=" + String.valueOf(id));
+            if ( resultSet.next() == false) {
+                System.out.println("No results is database\n");
+            } else {
+                do {
+                    String costString = String.format("%.02f",resultSet.getFloat(7));
+                    System.out.println(
+                            "Transaction ID: " + resultSet.getInt(1)
+                                    + ", Guest ID: " + resultSet.getInt(2)
+                                    + ", Room number: "  + resultSet.getInt(3)
+                                    + ", Start date: "  + resultSet.getString(4)
+                                    + ", End date: "  + resultSet.getString(5)
+                                    + ", Number of people: "  + resultSet.getInt(6)
+                                    + ", Total cost: $"  + costString
+                    );
+                } while (resultSet.next());
+            }
+        }
+        catch (SQLException sqlException){
+            System.out.println("Error with SQL query");
+            sqlException.printStackTrace();
+        }
+    }
+
+    public void displayAllReservations() {
+        try {
+            ResultSet resultSet = dbWrapper.retrieveFromDb("SELECT * FROM Reservations");
+            if ( resultSet.next() == false) {
+                System.out.println("No results is database\n");
+            } else {
+                do {
+                    displayReservationsById(resultSet.getInt(1));
+                } while (resultSet.next());
+            }
+        }
+        catch (SQLException sqlException){
+            System.out.println("Error with SQL query");
+            sqlException.printStackTrace();
+        }
+    }
+
+    public void displayReservationsByRoom(Integer roomID) {
+        try {
+            ResultSet resultSet = dbWrapper.retrieveFromDb("SELECT * FROM Reservations WHERE roomID=" +String.valueOf(roomID));
+            if ( resultSet.next() == false) {
+                System.out.println("No results is database\n");
+            } else {
+                do {
+                    displayReservationsById(resultSet.getInt(1));
+                } while (resultSet.next());
+            }
+        }
+        catch (SQLException sqlException){
+            System.out.println("Error with SQL query");
+            sqlException.printStackTrace();
+        }
+    }
+
+    public void displayReservationsByGuest(Integer guestID) {
+        try {
+            ResultSet resultSet = dbWrapper.retrieveFromDb("SELECT * FROM Reservations WHERE gID=" +String.valueOf(guestID));
+            if ( resultSet.next() == false) {
+                System.out.println("No results is database\n");
+            } else {
+                do {
+                    displayReservationsById(resultSet.getInt(1));
+                } while (resultSet.next());
+            }
+        }
+        catch (SQLException sqlException){
+            System.out.println("Error with SQL query");
+            sqlException.printStackTrace();
+        }
     }
 }
