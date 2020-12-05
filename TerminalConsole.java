@@ -28,15 +28,6 @@ public class TerminalConsole {
 
     private static final String DISPLAY_GET_DATE = "Pick your desired date in the following format MM/DD/YYYY\n";
     private static final String DISPLAY_CALENDAR_HEADER = "Current month is:\n Su\t Mo\t Tu\t We\t Th\t Fr\t Sa\n";
-    private static final String DISPLAY_NAVIGATE = "\nEnter [P]revious, [N]ext, or [G]o back to main menu.\n";
-
-    private static final String DISPLAY_CHOOSE_STARTING_TIME = "Choose starting time, ";
-    private static final String DISPLAY_CHOOSE_ENDING_TIME = "Choose ending time, ";
-    private static final String DISPLAY_NO_EVENTS = "\nNo events to display.\n";
-    private static final String DISPLAY_ONETIME_EVENTS = "\nOne-time events\n";
-    private static final String DISPLAY_RECURRING_EVENTS = "\nRecurring events\n";
-    private static final String DATE_DISPLAY_PATTERN = "E, MMM d yyyy";
-    private static final String DATE_DISPLAY_PATTERN_SHORT = "E, MMM d";
     private static final String DATE_PARSING_FORMAT = "M/d/yyyy";
 
     private Scanner scanner;
@@ -63,6 +54,7 @@ public class TerminalConsole {
         while (!isQuit){
             input = displayPrompt(DISPLAY_MAIN_MENU);
             switch (input.toLowerCase()){
+                // RESERVATIONS MENU
                 case "r": input = displayPrompt(DISPLAY_RESERVATIONS_MENU);
                     if (input.toLowerCase().equals("c")) {
                         String guestId = displayPrompt("Guest ID, ");
@@ -79,7 +71,9 @@ public class TerminalConsole {
                         if (input.matches("[0-9]+")) {
                             model.displayReservationsById(Integer.valueOf(input));
                         } else display(DISPLAY_WRONG_INPUT);
-                    } else
+                    } else {
+                        // other options...
+                    }
                         break;
                 case "c": input = displayPrompt(DISPLAY_CHECKIN_SUBMENU);
                     String[] subInputArr = new String[6];

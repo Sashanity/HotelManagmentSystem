@@ -17,7 +17,7 @@ public class DbWrapper {
         ResultSet resultSet = null;
         try {
             Statement statement = connection.createStatement();
-            int result = statement.executeUpdate(sqlQuery);
+            int result = statement.executeUpdate(sqlQuery,Statement.RETURN_GENERATED_KEYS);
             if (result != 0){
                 resultSet = statement.getGeneratedKeys();
             } else
