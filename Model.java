@@ -108,7 +108,7 @@ public class Model {
                 do {
                     String costString = String.format("%.02f",resultSet.getFloat(7));
                     System.out.println(
-                            "Transaction ID: " + resultSet.getInt(1)
+                            "Reservation ID: " + resultSet.getInt(1)
                                     + ", Guest ID: " + resultSet.getInt(2)
                                     + ", Room number: "  + resultSet.getInt(3)
                                     + ", Start date: "  + resultSet.getString(4)
@@ -173,6 +173,30 @@ public class Model {
         catch (SQLException sqlException){
             System.out.println("Error with SQL query");
             sqlException.printStackTrace();
+        }
+    }
+
+    public void deleteReservationsById(Integer id) {
+        try {
+            dbWrapper.insertToDb("DELETE FROM Reservations WHERE bookingID=" +String.valueOf(id));
+            System.out.println("Successfully deleted\n");
+
+        } catch (Exception e) {
+            System.out.println("Error has occured in Model.deleteReservationsById");
+            e.printStackTrace();
+        }
+    }
+
+    public void changeReservationsById(Integer id, String guestId, String roomId, LocalDate startDate, LocalDate endDate, String numberOfPeople) {
+        try {
+            dbWrapper.insertToDb("UPDATE Reservations SET gID="+ String.valueOf(guestId) +
+                    ", roomID=" + String.valueOf(roomId) + ", startDate='" + startDate + "', endDate='"
+                    + endDate +"', numPeople=" + String.valueOf(numberOfPeople) + " WHERE bookingID=" + String.valueOf(id));
+            System.out.println("Successfully updated transaction number: "+ id +"\n");
+
+        } catch (Exception e) {
+            System.out.println("Error has occured in Model.changeReservationsById");
+            e.printStackTrace();
         }
     }
 }

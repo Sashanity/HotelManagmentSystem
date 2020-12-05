@@ -17,7 +17,8 @@ public class TerminalConsole {
             "[S]earch for a guest by ID\n[B]ack\n";
     private static final String DISPLAY_RESERVATIONS_MENU = "\n\tRESERVATIONS MENU\nPlease choose from the following:\n"+
             "[C]reate new reservation\n[F]ind reservation by ID\nFind reservation by [D]ate\n" +
-            "Find reservation by [R]room number\nFind reservation by [G]uest ID\n[S]how all reservations\n[B]ack\n";
+            "Find reservation by [R]room number\nFind reservation by [G]uest ID\n[S]how all reservations\n" +
+            "D[e]lete reservation by ID\nC[h]ange reservation (by ID)\n[B]ack\n";
     private static final String DISPLAY_CHECKIN_SUBMENU = "\n\tXXX MENU\nPlease choose from the following:\n"+
             "[W]hatever\n[B]ack\n";
     private static final String DISPLAY_MAINTAINANCE_SUBMENU = "\n\tMAINTENANCE MENU\nPlease choose from the following:\n"+
@@ -91,6 +92,25 @@ public class TerminalConsole {
                         } else display(DISPLAY_WRONG_INPUT);
                     } else if (input.toLowerCase().equals("s") ) {
                         model.displayAllReservations();
+                    } else if (input.toLowerCase().equals("e") ) {
+                        input = displayPrompt("Delete resrvation by ID. ");
+                        if (input.matches("[0-9]+")) {
+                            model.deleteReservationsById(Integer.valueOf(input));
+                        } else display(DISPLAY_WRONG_INPUT);
+                    } else if (input.toLowerCase().equals("h") ) {
+                        input = displayPrompt("Enter resrvation ID. ");
+                        if (input.matches("[0-9]+")) {
+                            String guestId = displayPrompt("Guest ID, ");
+                            String roomId = displayPrompt("Room number, ");
+                            String startDateStr = displayPrompt("Start date (" + DATE_PARSING_FORMAT + "), ");
+                            String endDateStr = displayPrompt("End date (" + DATE_PARSING_FORMAT + "), ");
+                            String numberOfPeople = displayPrompt("Number of people (1 - 10): ");
+                            DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern(DATE_PARSING_FORMAT);
+                            LocalDate startDate = LocalDate.parse(startDateStr, dateTimeFormatter);
+                            LocalDate endDate = LocalDate.parse(endDateStr, dateTimeFormatter);
+                            model.changeReservationsById(Integer.valueOf(input),guestId, roomId, startDate, endDate,
+                                    numberOfPeople);
+                        } else display(DISPLAY_WRONG_INPUT);
                     }
                     else {
                         System.out.println("\nNot a valid option.\n");
