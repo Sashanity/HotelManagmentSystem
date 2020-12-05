@@ -1,4 +1,4 @@
-use infinity_hotel;
+-- use infinity_hotel;
 -- creates rooms
 insert into Rooms values(101, 'single');
 insert into Rooms values(102, 'single');
