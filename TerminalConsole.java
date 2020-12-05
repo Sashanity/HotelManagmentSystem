@@ -18,7 +18,7 @@ public class TerminalConsole {
     private static final String DISPLAY_RESERVATIONS_MENU = "\n\tRESERVATIONS MENU\nPlease choose from the following:\n"+
             "[C]reate new reservation\n[F]ind reservation by ID\nFind reservation by [D]ate\n" +
             "Find reservation by [R]room number\nFind reservation by [G]uest ID\n[S]how all reservations\n" +
-            "D[e]lete reservation by ID\nC[h]ange reservation (by ID)\n[B]ack\n";
+            "Show a[l]l future reservations\nD[e]lete reservation by ID\nC[h]ange reservation (by ID)\n[B]ack\n";
     private static final String DISPLAY_CHECKIN_SUBMENU = "\n\tXXX MENU\nPlease choose from the following:\n"+
             "[W]hatever\n[B]ack\n";
     private static final String DISPLAY_MAINTAINANCE_SUBMENU = "\n\tMAINTENANCE MENU\nPlease choose from the following:\n"+
@@ -92,6 +92,8 @@ public class TerminalConsole {
                         } else display(DISPLAY_WRONG_INPUT);
                     } else if (input.toLowerCase().equals("s") ) {
                         model.displayAllReservations();
+                    } else if (input.toLowerCase().equals("l") ) {
+                        model.displayAllFutureReservations();
                     } else if (input.toLowerCase().equals("e") ) {
                         input = displayPrompt("Delete resrvation by ID. ");
                         if (input.matches("[0-9]+")) {

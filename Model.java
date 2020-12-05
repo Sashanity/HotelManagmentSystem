@@ -19,26 +19,41 @@ public class Model {
 
 
     public void createReservation(String guestId, String roomId, LocalDate startDate, LocalDate endDate, String numberOfPeople) {
-        int days = (int) startDate.until(endDate, ChronoUnit.DAYS);
-        try {
-            ResultSet resultSet = dbWrapper.retrieveFromDb("SELECT rate FROM Rooms NATURAL JOIN RoomTypes WHERE roomID=" + roomId);
-            resultSet.next();
-            float roomRate = resultSet.getFloat(1);
-            String query = "INSERT INTO Reservations(gID, roomID, startDate, endDate, numPeople, totalDue) VALUES (" +
-                    guestId + "," + roomId + ",'" + startDate + "','" + endDate + "'," +
-                    numberOfPeople + "," + String.valueOf(days*roomRate) + ") ";
-            resultSet = dbWrapper.insertToDb(query);
-            resultSet.next();
-            System.out.println("Succesfully created reservation with the following details:\n");
-            displayReservationsById(resultSet.getInt(1));
-        } catch (SQLException sqlException){
-            System.out.println("Error getting room rate. In Model.createReservation");
-            sqlException.printStackTrace();
+        if (roomIsAvailable(roomId,startDate,endDate)) {
+            int days = (int) startDate.until(endDate, ChronoUnit.DAYS);
+            try {
+                ResultSet resultSet = dbWrapper.retrieveFromDb("SELECT rate FROM Rooms NATURAL JOIN RoomTypes WHERE roomID=" + roomId);
+                resultSet.next();
+                float roomRate = resultSet.getFloat(1);
+                String query = "INSERT INTO Reservations(gID, roomID, startDate, endDate, numPeople, totalDue) VALUES (" +
+                        guestId + "," + roomId + ",'" + startDate + "','" + endDate + "'," +
+                        numberOfPeople + "," + String.valueOf(days * roomRate) + ") ";
+                resultSet = dbWrapper.insertToDb(query);
+                resultSet.next();
+                System.out.println("Succesfully created reservation with the following details:\n");
+                displayReservationsById(resultSet.getInt(1));
+            } catch (SQLException sqlException) {
+                System.out.println("Error getting room rate. In Model.createReservation");
+                sqlException.printStackTrace();
+            }
+        } else {
+            System.out.println("Room is taken during these dates");
         }
-
-
     }
 
+    private boolean roomIsAvailable(String roomId, LocalDate startDate, LocalDate endDate) {
+        boolean result = false;
+        try {
+            ResultSet resultSet = dbWrapper.retrieveFromDb("SELECT * FROM Reservations WHERE roomID= " + roomId + " AND  (startDate BETWEEN '" +
+                    startDate + "' AND '" + endDate + "' OR endDate BETWEEN '" + startDate + "' AND '" + endDate + "')");
+            result = !resultSet.next();
+        }
+        catch (SQLException sqlException){
+            System.out.println("Error with SQL query");
+            sqlException.printStackTrace();
+        }
+        return result;
+    }
 
 
     public void displayRoomTypeById(int id){
@@ -70,7 +85,7 @@ public class Model {
                     System.out.println(
                             "Guest ID: " + resultSet.getInt(1)
                                     + ", First name: " + resultSet.getString(2)
-                            + ", Last name: " + resultSet.getString(3));
+                                    + ", Last name: " + resultSet.getString(3));
                 } while (resultSet.next());
             }
         }
@@ -128,6 +143,23 @@ public class Model {
     public void displayAllReservations() {
         try {
             ResultSet resultSet = dbWrapper.retrieveFromDb("SELECT * FROM Reservations");
+            if ( resultSet.next() == false) {
+                System.out.println("No results is database\n");
+            } else {
+                do {
+                    displayReservationsById(resultSet.getInt(1));
+                } while (resultSet.next());
+            }
+        }
+        catch (SQLException sqlException){
+            System.out.println("Error with SQL query");
+            sqlException.printStackTrace();
+        }
+    }
+
+    public void displayAllFutureReservations() {
+        try {
+            ResultSet resultSet = dbWrapper.retrieveFromDb("SELECT * FROM Reservations WHERE startDate >= DATE '" + LocalDate.now() +"'");
             if ( resultSet.next() == false) {
                 System.out.println("No results is database\n");
             } else {
