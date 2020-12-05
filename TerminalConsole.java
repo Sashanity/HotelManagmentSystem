@@ -1,4 +1,5 @@
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 /**
@@ -36,7 +37,7 @@ public class TerminalConsole {
     private static final String DISPLAY_RECURRING_EVENTS = "\nRecurring events\n";
     private static final String DATE_DISPLAY_PATTERN = "E, MMM d yyyy";
     private static final String DATE_DISPLAY_PATTERN_SHORT = "E, MMM d";
-
+    private static final String DATE_PARSING_FORMAT = "M/d/yyyy";
 
     private Scanner scanner;
     private Model model;
@@ -64,7 +65,15 @@ public class TerminalConsole {
             switch (input.toLowerCase()){
                 case "r": input = displayPrompt(DISPLAY_RESERVATIONS_MENU);
                     if (input.toLowerCase().equals("c")) {
-                        input = displayPrompt("Insert a new transaction as... ");
+                        String guestId = displayPrompt("Guest ID, ");
+                        String roomId = displayPrompt("Room number, ");
+                        String startDateStr = displayPrompt("Start date (" + DATE_PARSING_FORMAT + "), ");
+                        String endDateStr = displayPrompt("End date (" + DATE_PARSING_FORMAT + "), ");
+                        String numberOfPeople = displayPrompt("Number of people (1 - 10): ");
+                        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern(DATE_PARSING_FORMAT);
+                        LocalDate startDate = LocalDate.parse(startDateStr, dateTimeFormatter);
+                        LocalDate endDate = LocalDate.parse(endDateStr, dateTimeFormatter);
+                        model.createReservation(guestId, roomId, startDate, endDate, numberOfPeople);
                     } else if (input.toLowerCase().equals("f") ){
                         input = displayPrompt("Search resrvation by id. ");
                         if (input.matches("[0-9]+")) {

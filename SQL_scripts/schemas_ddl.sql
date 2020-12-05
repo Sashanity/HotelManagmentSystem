@@ -12,7 +12,7 @@ create table Rooms(
 drop table if exists RoomTypes;
 create table RoomTypes(
 	type VARCHAR(30),
-	rate VARCHAR(30)
+	rate FLOAT
 );	
 
 drop table if exists Guests;
