@@ -94,7 +94,7 @@ create table TransactionsArchive(
 	transID INT NOT NULL PRIMARY KEY,
 	bookingID INT,
 	type VARCHAR(30),
-	time_stamp  TIMESTAMP NOT NULL,
+	time_stamp TIMESTAMP NOT NULL,
 	sID INT
 );
 
