@@ -22,7 +22,7 @@ public class TerminalConsole {
     private static final String DISPLAY_CHECKIN_SUBMENU = "\n\tXXX MENU\nPlease choose from the following:\n"+
             "[W]hatever\n[B]ack\n";
     private static final String DISPLAY_MAINTAINANCE_SUBMENU = "\n\tMAINTENANCE MENU\nPlease choose from the following:\n"+
-            "[G]et room by ID\n[B]ack\n";
+            "[G]et room by ID\n[R]equest Service\n[D]isplay service requests\n[S]ervice Room\n[B]ack\n";
     private static final String DISPLAY_KEYING_SUBMENU = "\n\tXXX MENU\nPlease choose from the following:\n"+
             "[W]hatever\n[B]ack\n";
     private static final String DISPLAY_OTHERS_SUBMENU = "\n\tXXX MENU\nPlease choose from the following:\n"+
@@ -139,6 +139,17 @@ public class TerminalConsole {
                         if (input.matches("[0-9]+")) {
                             model.displayRoomTypeById(Integer.valueOf(input));
                         } else display(DISPLAY_WRONG_INPUT);
+                    } else if (input.toLowerCase().equals("r")){
+                        String roomID = displayPrompt("room ID ");
+                        String service = displayPrompt("service type, ");
+                        String date = displayPrompt("date of request(" + DATE_PARSING_FORMAT + "), ");
+                        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern(DATE_PARSING_FORMAT);
+                        LocalDate date_req = LocalDate.parse(date, dateTimeFormatter);
+                        model.createServiceRequest(Integer.valueOf(roomID),service,date_req, false);
+                    } else if (input.toLowerCase().equals("d")){
+                        model.displayServiceRequests();
+                    } else if (input.toLowerCase().equals("b")){
+                    display(DISPLAY_MAINTAINANCE_SUBMENU);
                     } else
                         break;
                 case "k": input = displayPrompt(DISPLAY_KEYING_SUBMENU);
