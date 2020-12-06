@@ -21,7 +21,7 @@ public class TerminalConsole {
             "Find reservation by [R]room number\nFind reservation by [G]uest ID\n[S]how all reservations\n" +
             "Show a[l]l future reservations\nD[e]lete reservation by ID\nC[h]ange reservation (by ID)\n[B]ack\n";
     private static final String DISPLAY_CHECKIN_SUBMENU = "\n\tCHECKING MENU\nPlease choose from the following:\n"+
-            "Check-[I]n\nCheck-[O]ut\n[A]ll transactions\nA[R]hive transactions\n[B]ack\n";
+            "[D]isplay vacant rooms\nCheck-[I]n\nCheck-[O]ut\n[A]ll transactions\nA[R]chive transactions\n[B]ack\n";
     private static final String DISPLAY_MAINTAINANCE_SUBMENU = "\n\tMAINTENANCE MENU\nPlease choose from the following:\n"+
             "[G]et room by ID\n[R]equest Service\n[D]isplay service requests\n[S]ervice Room\n[B]ack\n";
     private static final String DISPLAY_KEYING_SUBMENU = "\n\tXXX MENU\nPlease choose from the following:\n"+

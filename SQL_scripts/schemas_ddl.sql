@@ -103,8 +103,8 @@ DELIMITER $$
 CREATE PROCEDURE archiveTransactions(IN cutOff date)
 BEGIN
 	insert into TransactionsArchive
-	select * from Transactions where date(time_stamp)<=cutOff
-	for update;
+	select * from Transactions where date(time_stamp)<=cutOff;
+	-- for update;
 	delete from Transactions where date(time_stamp)<=cutOff;
 END $$
 
