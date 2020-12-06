@@ -21,11 +21,11 @@ public class TerminalConsole {
             "Find reservation by [R]room number\nFind reservation by [G]uest ID\n[S]how all reservations\n" +
             "Show a[l]l future reservations\nD[e]lete reservation by ID\nC[h]ange reservation (by ID)\n[B]ack\n";
     private static final String DISPLAY_CHECKIN_SUBMENU = "\n\tCHECKING MENU\nPlease choose from the following:\n"+
-            "[D]isplay vacant rooms\nCheck-[I]n\nCheck-[O]ut\n[B]ack\n";
+            "Check-[I]n\nCheck-[O]ut\n[A]ll transactions\nA[R]hive transactions\n[B]ack\n";
     private static final String DISPLAY_MAINTAINANCE_SUBMENU = "\n\tMAINTENANCE MENU\nPlease choose from the following:\n"+
             "[G]et room by ID\n[R]equest Service\n[D]isplay service requests\n[S]ervice Room\n[B]ack\n";
     private static final String DISPLAY_KEYING_SUBMENU = "\n\tXXX MENU\nPlease choose from the following:\n"+
-            "[W]hatever\n[B]ack\n";
+            "[C]reate key\n[U]pdate forgotten key for the guest";
     private static final String DISPLAY_OTHERS_SUBMENU = "\n\tXXX MENU\nPlease choose from the following:\n"+
             "[W]hatever\n[B]ack\n";
 
@@ -143,6 +143,14 @@ public class TerminalConsole {
                                 model.checkOut(Integer.valueOf(input), Integer.valueOf(worker));
                             } else display(DISPLAY_WRONG_INPUT);
                         } else display(DISPLAY_WRONG_INPUT);
+                    }else if (input.toLowerCase().equals("r") ){
+                        String date = displayPrompt("Set cut-off date for archiving MM/DD/YYYY. ");
+                        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern(DATE_PARSING_FORMAT);
+                        LocalDate dateFormatted= LocalDate.parse(date, dateTimeFormatter);
+                        model.archiveTransactions(dateFormatted);
+                    }else if (input.toLowerCase().equals("a") ){
+
+                        model.displayAllTransactions();
                     }
                     break;
                 // GUEST MENU
@@ -189,8 +197,20 @@ public class TerminalConsole {
                         break;
                     break;
                 case "k": input = displayPrompt(DISPLAY_KEYING_SUBMENU);
-                    displayPrompt(DISPLAY_GET_DATE);
+                    if (input.toLowerCase().equals("c")) {
+                        String roomID = displayPrompt("room # ");
+                        String guestID = displayPrompt("guest # ");
+                        String pwd = displayPrompt("password ");
+                        model.createKey(Integer.valueOf(roomID),Integer.valueOf(guestID),pwd);
+                    } else if (input.toLowerCase().equals("u")) {
+                        String roomID = displayPrompt("room # ");
+                        String guestID = displayPrompt("guest # ");
+                        String pwd = displayPrompt("password ");
+                        model.changeKeyforGuest(Integer.valueOf(roomID),Integer.valueOf(guestID),pwd);
+                    }
+
                     break;
+
                 case "o":input = displayPrompt(DISPLAY_OTHERS_SUBMENU);
                     displayMonth(LocalDate.now()); break;
                 case "q": isQuit = true; break;

@@ -1,7 +1,4 @@
-import java.sql.ResultSet;
-import java.sql.SQLDataException;
-import java.sql.SQLException;
-import java.sql.Timestamp;
+import java.sql.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.chrono.ChronoLocalDate;
@@ -368,12 +365,82 @@ public class Model {
                 do {
                     if(roomIsAvailable(resultSet.getString(1),startDate,endDate))
                         System.out.println(resultSet.getString(1));
+                                       } while (resultSet.next());
+            }
+        }
+        catch (SQLException sqlException){
+            System.out.println("Error with SQL query");
+            sqlException.printStackTrace();
+        }
+    }
+    public void archiveTransactions(LocalDate date) {
+        try {
+            String query = "{call archiveTransactions('"+date+"');}";
+            dbWrapper.callArchive(query);
+            System.out.println("Transactions have been archived\n");
+        }catch (Exception e) {
+            System.out.println("Error ");
+            e.printStackTrace();
+        }
+    }
+
+    public void displayTransactionsById (int id){
+        try {
+            ResultSet resultSet = dbWrapper.retrieveFromDb("SELECT * FROM transactions WHERE transID=" + String.valueOf(id));
+            if ( resultSet.next() == false) {
+                System.out.println("No results is database\n");
+            } else {
+                do {
+                    String costString = String.format("%.02f",resultSet.getFloat(5));
+                    System.out.println(
+                            "transID: " + resultSet.getInt(1)
+                                    + ", bookingID: " + resultSet.getInt(2)
+                                    + ", type: "  + resultSet.getString(3)
+                                    + ", time_stamp: "  + resultSet.getTimestamp(4)
+                                    + ", staff ID: "  + resultSet.getInt(5)
+                    );
                 } while (resultSet.next());
             }
         }
         catch (SQLException sqlException){
             System.out.println("Error with SQL query");
             sqlException.printStackTrace();
+        }
+    }
+    public void displayAllTransactions(){
+        try {
+            ResultSet resultSet = dbWrapper.retrieveFromDb("SELECT * FROM transactions");
+            if ( resultSet.next() == false) {
+                System.out.println("No results is database\n");
+            } else {
+                do {
+                    displayTransactionsById(resultSet.getInt(1));
+                } while (resultSet.next());
+            }
+        }
+        catch (SQLException sqlException){
+            System.out.println("Error with SQL query");
+            sqlException.printStackTrace();
+        }
+    }
+
+    public void createKey(Integer room, Integer guest, String pwd){
+        try {
+            dbWrapper.insertToDb("insert into RoomKeys values("+room+","+guest+",'"+pwd+"')");
+            System.out.println("Key is created\n");
+        }catch (Exception e) {
+            System.out.println("Error ");
+            e.printStackTrace();
+        }
+    }
+
+    public void changeKeyforGuest(Integer room, Integer guest, String pwd){
+        try {
+            dbWrapper.insertToDb("update  RoomKeys set keyPassword='"+pwd+"' where roomID="+room+" and gID="+guest );
+            System.out.println("Key is updated!\n");
+        }catch (Exception e) {
+            System.out.println("Error ");
+            e.printStackTrace();
         }
     }
 }
