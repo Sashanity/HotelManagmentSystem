@@ -21,7 +21,7 @@ public class TerminalConsole {
             "Find reservation by [R]room number\nFind reservation by [G]uest ID\n[S]how all reservations\n" +
             "Show a[l]l future reservations\nD[e]lete reservation by ID\nC[h]ange reservation (by ID)\n[B]ack\n";
     private static final String DISPLAY_CHECKIN_SUBMENU = "\n\tCHECKING MENU\nPlease choose from the following:\n"+
-            "Check-[I]n\nCheck-[O]ut\n[B]ack\n";
+            "[D]isplay vacant rooms\nCheck-[I]n\nCheck-[O]ut\n[B]ack\n";
     private static final String DISPLAY_MAINTAINANCE_SUBMENU = "\n\tMAINTENANCE MENU\nPlease choose from the following:\n"+
             "[G]et room by ID\n[R]equest Service\n[D]isplay service requests\n[S]ervice Room\n[B]ack\n";
     private static final String DISPLAY_KEYING_SUBMENU = "\n\tXXX MENU\nPlease choose from the following:\n"+
@@ -120,14 +120,32 @@ public class TerminalConsole {
                     }
                     break;
                 case "c": input = displayPrompt(DISPLAY_CHECKIN_SUBMENU);
-                    if (input.toLowerCase().equals("i") ) {
+                    if (input.toLowerCase().equals("d") ) {
+                        String startDateStr = displayPrompt("Start date (" + DATE_PARSING_FORMAT + "), ");
+                        String endDateStr = displayPrompt("End date (" + DATE_PARSING_FORMAT + "), ");
+                        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern(DATE_PARSING_FORMAT);
+                        LocalDate startDate = LocalDate.parse(startDateStr, dateTimeFormatter);
+                        LocalDate endDate = LocalDate.parse(endDateStr, dateTimeFormatter);
+                        model.displayVacantRoomsByDate(startDate,endDate);
+                    } else if (input.toLowerCase().equals("i") ) {
                         input = displayPrompt("Check-In by resrvation ID. ");
                         if (input.matches("[0-9]+")) {
-                            model.checkIn(Integer.valueOf(input));
+                            String worker = displayPrompt("Please enter your employee ID. ");
+                            if (input.matches("[0-9]+")) {
+                                model.checkIn(Integer.valueOf(input), Integer.valueOf(worker));
+                            } else display(DISPLAY_WRONG_INPUT);
+                        } else display(DISPLAY_WRONG_INPUT);
+                    } else if (input.toLowerCase().equals("o") ) {
+                        input = displayPrompt("Check-Out by resrvation ID. ");
+                        if (input.matches("[0-9]+")) {
+                            String worker = displayPrompt("Please enter your employee ID. ");
+                            if (input.matches("[0-9]+")) {
+                                model.checkOut(Integer.valueOf(input), Integer.valueOf(worker));
+                            } else display(DISPLAY_WRONG_INPUT);
                         } else display(DISPLAY_WRONG_INPUT);
                     }
                     break;
-                    // GUEST MENU
+                // GUEST MENU
                 case "g": input = displayPrompt(DISPLAY_GUEST_SUBMENU);
                     if (input.toLowerCase().equals("a")) {
                         String firstName = displayPrompt("First name, ");
@@ -167,10 +185,9 @@ public class TerminalConsole {
                         model.serviceRoom(Integer.valueOf(roomID),Integer.valueOf(reqID),Integer.valueOf(staffID),timestamp);
                     } else if (input.toLowerCase().equals("d")){
                         model.displayServiceRequests();
-                    } else if (input.toLowerCase().equals("b")){
-                    display(DISPLAY_MAINTAINANCE_SUBMENU);
                     } else
                         break;
+                    break;
                 case "k": input = displayPrompt(DISPLAY_KEYING_SUBMENU);
                     displayPrompt(DISPLAY_GET_DATE);
                     break;
