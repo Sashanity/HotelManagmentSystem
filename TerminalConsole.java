@@ -1,3 +1,4 @@
+import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -22,7 +23,7 @@ public class TerminalConsole {
     private static final String DISPLAY_CHECKIN_SUBMENU = "\n\tCHECKING MENU\nPlease choose from the following:\n"+
             "Check-[I]n\nCheck-[O]ut\n[B]ack\n";
     private static final String DISPLAY_MAINTAINANCE_SUBMENU = "\n\tMAINTENANCE MENU\nPlease choose from the following:\n"+
-            "[G]et room by ID\n[B]ack\n";
+            "[G]et room by ID\n[R]equest Service\n[D]isplay service requests\n[S]ervice Room\n[B]ack\n";
     private static final String DISPLAY_KEYING_SUBMENU = "\n\tXXX MENU\nPlease choose from the following:\n"+
             "[W]hatever\n[B]ack\n";
     private static final String DISPLAY_OTHERS_SUBMENU = "\n\tXXX MENU\nPlease choose from the following:\n"+
@@ -153,6 +154,21 @@ public class TerminalConsole {
                         if (input.matches("[0-9]+")) {
                             model.displayRoomTypeById(Integer.valueOf(input));
                         } else display(DISPLAY_WRONG_INPUT);
+                    } else if (input.toLowerCase().equals("r")){
+                        String roomID = displayPrompt("room ID ");
+                        String service = displayPrompt("service type, ");
+                        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+                        model.createServiceRequest(Integer.valueOf(roomID),service,timestamp, false);
+                    } else if (input.toLowerCase().equals("s")) {
+                        String roomID = displayPrompt("room # ");
+                        String reqID = displayPrompt("service req # ");
+                        String staffID = displayPrompt("staff id #");
+                        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+                        model.serviceRoom(Integer.valueOf(roomID),Integer.valueOf(reqID),Integer.valueOf(staffID),timestamp);
+                    } else if (input.toLowerCase().equals("d")){
+                        model.displayServiceRequests();
+                    } else if (input.toLowerCase().equals("b")){
+                    display(DISPLAY_MAINTAINANCE_SUBMENU);
                     } else
                         break;
                 case "k": input = displayPrompt(DISPLAY_KEYING_SUBMENU);

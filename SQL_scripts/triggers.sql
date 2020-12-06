@@ -27,6 +27,18 @@ CREATE TRIGGER service
     END; $$
 DELIMITER ;
 
+DELIMITER $$
+drop trigger if exists service2;
+CREATE TRIGGER service2
+   AFTER DELETE
+   ON ServiceRoom
+   FOR EACH ROW
+   BEGIN
+       update ServiceRequest set status=false where reqID=old.reqID;
+       update ServiceRequest set time_stamp=NOW() where reqID=old.reqID;
+   END; $$
+DELIMITER ;
+
 -- DELIMITER $$
 -- drop trigger if exists rmReservation;
 -- CREATE TRIGGER rmReservation
@@ -40,14 +52,14 @@ DELIMITER ;
 
 
 
- DELIMITER $$
-drop trigger if exists rmReservation;
-CREATE TRIGGER rmReservation
-    AFTER DELETE
-    ON Reservations
-    FOR EACH ROW
-    BEGIN
-        delete from Guests where gID=old.gID;
-        delete from RoomKeys where gID=old.gID;
-    END; $$
-DELIMITER ;
+-- DELIMITER $$
+             --drop trigger if exists rmReservation;
+             --CREATE TRIGGER rmReservation
+             --    AFTER DELETE
+             --    ON Reservations
+             --    FOR EACH ROW
+             --    BEGIN
+             --        delete from Guests where gID=old.gID;
+             --        delete from RoomKeys where gID=old.gID;
+             --    END; $$
+             --DELIMITER ;
