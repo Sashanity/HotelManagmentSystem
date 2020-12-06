@@ -1,7 +1,5 @@
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
+
 /**
  * Class contains abstractions for Db access
  */
@@ -41,6 +39,22 @@ public class DbWrapper {
             sqlException.printStackTrace();
         } finally {
             return resultSet;
+        }
+    }
+
+    void callArchive(String sqlQuery){
+        ResultSet resultSet = null;
+        //        Connection conn = DriverManager.getConnection();
+//        String query = "{call archiveTransactions('"+date+"');}";
+//        CallableStatement stmt = conn.prepareCall(query);
+        try {
+            CallableStatement stmt = connection.prepareCall(sqlQuery);
+
+        } catch (SQLException sqlException){
+            System.out.println("Error with SQL: DbWrapper.callArchive: " + sqlQuery);
+            sqlException.printStackTrace();
+        } finally {
+
         }
     }
 }
