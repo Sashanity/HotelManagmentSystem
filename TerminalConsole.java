@@ -15,13 +15,13 @@ public class TerminalConsole {
     private static final String DISPLAY_WRONG_INPUT = "\nWrong input. Please try again.\n";
     private static final String INVALID_SELECTION = "Invalid selection. Please try again.\n";
     private static final String DISPLAY_GUEST_SUBMENU = "\n\tGUEST MANAGEMENT MENU\nPlease choose from the following:\n"+
-            "[S]earch for a guest by ID\n[B]ack\n";
+            "[S]earch for a guest by ID\nS[e]arch for a guest by name\n[A]dd a new guest\n[B]ack\n";
     private static final String DISPLAY_RESERVATIONS_MENU = "\n\tRESERVATIONS MENU\nPlease choose from the following:\n"+
             "[C]reate new reservation\n[F]ind reservation by ID\nFind reservation by [D]ate\n" +
             "Find reservation by [R]room number\nFind reservation by [G]uest ID\n[S]how all reservations\n" +
             "Show a[l]l future reservations\nD[e]lete reservation by ID\nC[h]ange reservation (by ID)\n[B]ack\n";
-    private static final String DISPLAY_CHECKIN_SUBMENU = "\n\tXXX MENU\nPlease choose from the following:\n"+
-            "[W]hatever\n[B]ack\n";
+    private static final String DISPLAY_CHECKIN_SUBMENU = "\n\tCHECKING MENU\nPlease choose from the following:\n"+
+            "Check-[I]n\nCheck-[O]ut\n[B]ack\n";
     private static final String DISPLAY_MAINTAINANCE_SUBMENU = "\n\tMAINTENANCE MENU\nPlease choose from the following:\n"+
             "[G]et room by ID\n[R]equest Service\n[D]isplay service requests\n[S]ervice Room\n[B]ack\n";
     private static final String DISPLAY_KEYING_SUBMENU = "\n\tXXX MENU\nPlease choose from the following:\n"+
@@ -120,18 +120,32 @@ public class TerminalConsole {
                     }
                     break;
                 case "c": input = displayPrompt(DISPLAY_CHECKIN_SUBMENU);
-                    String[] subInputArr = new String[6];
+                    if (input.toLowerCase().equals("i") ) {
+                        input = displayPrompt("Check-In by resrvation ID. ");
+                        if (input.matches("[0-9]+")) {
+                            model.checkIn(Integer.valueOf(input));
+                        } else display(DISPLAY_WRONG_INPUT);
+                    }
                     break;
+                    // GUEST MENU
                 case "g": input = displayPrompt(DISPLAY_GUEST_SUBMENU);
-                    if (input.toLowerCase().equals("e")) {
-                        input = displayPrompt("Insert a new guest as... ");
-                    } else if (input.toLowerCase().equals("s") ){
+                    if (input.toLowerCase().equals("a")) {
+                        String firstName = displayPrompt("First name, ");
+                        String lastName = displayPrompt("Last name, ");
+                        model.createGuest(firstName,lastName);
+                        break;
+                    } else if (input.toLowerCase().equals("s") ) {
                         input = displayPrompt("Search for guest by ID. ");
                         if (input.matches("[0-9]+")) {
                             model.displayGuestById(Integer.valueOf(input));
-                        } else display(DISPLAY_WRONG_INPUT);
-                    } else
+                        } else
+                            display(DISPLAY_WRONG_INPUT);
                         break;
+                    } else if (input.toLowerCase().equals("e") ) {
+                        String name = displayPrompt("Enter first or last name ");
+                        model.displayGuestByName(name);
+                        break;
+                    }
                 case "m": input = displayPrompt(DISPLAY_MAINTAINANCE_SUBMENU);
                     if (input.toLowerCase().equals("e")) {
                         input = displayPrompt("Insert a new guest as... ");

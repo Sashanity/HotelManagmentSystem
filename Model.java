@@ -77,9 +77,31 @@ public class Model {
         }
     }
 
+
     public void displayGuestById(int id){
         try {
             ResultSet resultSet = dbWrapper.retrieveFromDb("SELECT * FROM Guests WHERE gID=" + String.valueOf(id));
+            if ( resultSet.next() == false) {
+                System.out.println("No results is database\n");
+            } else {
+                do {
+                    System.out.println(
+                            "Guest ID: " + resultSet.getInt(1)
+                                    + ", First name: " + resultSet.getString(2)
+                                    + ", Last name: " + resultSet.getString(3));
+                } while (resultSet.next());
+            }
+        }
+        catch (SQLException sqlException){
+            System.out.println("Error with SQL query");
+            sqlException.printStackTrace();
+        }
+    }
+
+    public void displayGuestByName(String name){
+        try {
+            ResultSet resultSet = dbWrapper.retrieveFromDb("SELECT * FROM Guests WHERE firstN='" + name + "' OR lastN= '"
+                    + name + "'");
             if ( resultSet.next() == false) {
                 System.out.println("No results is database\n");
             } else {
@@ -114,6 +136,8 @@ public class Model {
             sqlException.printStackTrace();
         }
     }
+
+
 
 
     public void displayReservationsById(int id){
@@ -231,6 +255,34 @@ public class Model {
         } catch (Exception e) {
             System.out.println("Error has occured in Model.changeReservationsById");
             e.printStackTrace();
+        }
+    }
+
+
+    public void createGuest(String firstName, String lastName) {
+        try {
+            String query = "INSERT INTO Guests(firstN,lastN) VALUES ('" +
+                    firstName +"','" + lastName + "') ";
+            ResultSet resultSet = dbWrapper.insertToDb(query);
+            resultSet.next();
+            System.out.println("Succesfully created reservation with the following details:\n");
+            displayGuestById(resultSet.getInt(1));
+        } catch (SQLException sqlException) {
+            System.out.println("Error adding guest. In Model.createGuest");
+            sqlException.printStackTrace();
+        }
+    }
+
+    public void checkIn(int id) {
+        try {
+            String query = "INSERT INTO Transactions(bookingID,type,time_stamp) VALUES (" +
+                    id +",'check in',NOW())";
+            ResultSet resultSet = dbWrapper.insertToDb(query);
+            resultSet.next();
+            System.out.println("Succesfully checked in reservation.\n");
+        } catch (SQLException sqlException) {
+            System.out.println("Error adding guest. In Model.createGuest");
+            sqlException.printStackTrace();
         }
     }
 
