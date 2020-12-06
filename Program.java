@@ -9,8 +9,10 @@ import java.util.Scanner;
 
 public class Program {
     private static final String DB_SCHEMA_NAME = "infinity_hotel"; // check & run init file: DCL/inifinity_hotel.sql
-    private static final String DB_USERNAME = "hoteluser";
-    private static final String DB_PASSWORD = "p123456d";
+    // private static final String DB_USERNAME = "hoteluser";
+    // private static final String DB_PASSWORD = "p123456d";
+    private static final String DB_USERNAME = "root";
+    private static final String DB_PASSWORD = "qqq";
 
     public static void main(String[] args ){
         Connection connection = null;

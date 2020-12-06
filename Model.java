@@ -1,6 +1,7 @@
 import java.sql.ResultSet;
 import java.sql.SQLDataException;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.chrono.ChronoLocalDate;
@@ -71,6 +72,7 @@ public class Model {
         }
         catch (SQLException sqlException){
             System.out.println("Error with SQL query");
+
             sqlException.printStackTrace();
         }
     }
@@ -228,6 +230,66 @@ public class Model {
 
         } catch (Exception e) {
             System.out.println("Error has occured in Model.changeReservationsById");
+            e.printStackTrace();
+        }
+    }
+
+    public void displayServiceRequestsById(int id){
+        try {
+            ResultSet resultSet = dbWrapper.retrieveFromDb("SELECT * FROM ServiceRequest WHERE reqID=" + String.valueOf(id));
+            if ( resultSet.next() == false) {
+                System.out.println("No results is database\n");
+            } else {
+                do {
+                    String costString = String.format("%.02f",resultSet.getFloat(5));
+                    System.out.println(
+                            "request ID: " + resultSet.getInt(1)
+                                    + ", room number: " + resultSet.getInt(2)
+                                    + ", service type: "  + resultSet.getString(3)
+                                    + ", time_stamp: "  + resultSet.getTimestamp(4)
+                                    + ", status: "  + resultSet.getBoolean(5)
+                    );
+                } while (resultSet.next());
+            }
+        }
+        catch (SQLException sqlException){
+            System.out.println("Error with SQL query");
+            sqlException.printStackTrace();
+        }
+    }
+    public void displayServiceRequests(){
+        try {
+            ResultSet resultSet = dbWrapper.retrieveFromDb("SELECT * FROM ServiceRequest");
+            if ( resultSet.next() == false) {
+                System.out.println("No results is database\n");
+            } else {
+                do {
+                    displayServiceRequestsById(resultSet.getInt(1));
+                } while (resultSet.next());
+            }
+        }
+        catch (SQLException sqlException){
+            System.out.println("Error with SQL query");
+            sqlException.printStackTrace();
+        }
+    }
+
+    public void createServiceRequest(Integer roomID, String serviceType, Timestamp timestamp, boolean status){
+        try {
+            dbWrapper.insertToDb("insert into ServiceRequest values(null,"+ roomID+",'"+serviceType+"','"+timestamp+"',"+status+")");
+            System.out.println("Successfully added new service request\n");
+        }catch (Exception e) {
+            System.out.println("Error ");
+            e.printStackTrace();
+        }
+    }
+
+    public void serviceRoom (Integer roomID, Integer reqID, Integer staffID, Timestamp timestamp ){
+        try {
+            dbWrapper.insertToDb("insert into ServiceRoom values("+roomID+","+reqID+","+staffID+",'"+timestamp+"')");
+            System.out.println("Thank you for your service\n");
+        }catch (Exception e) {
+            System.out.println("Error ");
             e.printStackTrace();
         }
     }
