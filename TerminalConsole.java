@@ -1,3 +1,4 @@
+import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -142,10 +143,14 @@ public class TerminalConsole {
                     } else if (input.toLowerCase().equals("r")){
                         String roomID = displayPrompt("room ID ");
                         String service = displayPrompt("service type, ");
-                        String date = displayPrompt("date of request(" + DATE_PARSING_FORMAT + "), ");
-                        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern(DATE_PARSING_FORMAT);
-                        LocalDate date_req = LocalDate.parse(date, dateTimeFormatter);
-                        model.createServiceRequest(Integer.valueOf(roomID),service,date_req, false);
+                        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+                        model.createServiceRequest(Integer.valueOf(roomID),service,timestamp, false);
+                    } else if (input.toLowerCase().equals("s")) {
+                        String roomID = displayPrompt("room # ");
+                        String reqID = displayPrompt("service req # ");
+                        String staffID = displayPrompt("staff id #");
+                        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+                        model.serviceRoom(Integer.valueOf(roomID),Integer.valueOf(reqID),Integer.valueOf(staffID),timestamp);
                     } else if (input.toLowerCase().equals("d")){
                         model.displayServiceRequests();
                     } else if (input.toLowerCase().equals("b")){

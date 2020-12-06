@@ -1,6 +1,7 @@
 import java.sql.ResultSet;
 import java.sql.SQLDataException;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.chrono.ChronoLocalDate;
@@ -240,13 +241,13 @@ public class Model {
                 System.out.println("No results is database\n");
             } else {
                 do {
-                    String costString = String.format("%.02f",resultSet.getFloat(7));
+                    String costString = String.format("%.02f",resultSet.getFloat(5));
                     System.out.println(
                             "request ID: " + resultSet.getInt(1)
                                     + ", room number: " + resultSet.getInt(2)
-                                    + ", service type: "  + resultSet.getInt(3)
-                                    + ", time_stamp: "  + resultSet.getString(4)
-                                    + ", status: "  + resultSet.getString(5)
+                                    + ", service type: "  + resultSet.getString(3)
+                                    + ", time_stamp: "  + resultSet.getTimestamp(4)
+                                    + ", status: "  + resultSet.getBoolean(5)
                     );
                 } while (resultSet.next());
             }
@@ -273,10 +274,20 @@ public class Model {
         }
     }
 
-    public void createServiceRequest( Integer roomID, String serviceType, LocalDate timestamp, boolean status){
+    public void createServiceRequest(Integer roomID, String serviceType, Timestamp timestamp, boolean status){
         try {
-            dbWrapper.insertToDb("insert into ServiceRequest values(null,"+ roomID+","+serviceType+","+timestamp+","+status+")");
+            dbWrapper.insertToDb("insert into ServiceRequest values(null,"+ roomID+",'"+serviceType+"','"+timestamp+"',"+status+")");
             System.out.println("Successfully added new service request\n");
+        }catch (Exception e) {
+            System.out.println("Error ");
+            e.printStackTrace();
+        }
+    }
+
+    public void serviceRoom (Integer roomID, Integer reqID, Integer staffID, Timestamp timestamp ){
+        try {
+            dbWrapper.insertToDb("insert into ServiceRoom values("+roomID+","+reqID+","+staffID+",'"+timestamp+"')");
+            System.out.println("Thank you for your service\n");
         }catch (Exception e) {
             System.out.println("Error ");
             e.printStackTrace();
