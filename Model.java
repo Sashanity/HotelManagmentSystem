@@ -273,15 +273,28 @@ public class Model {
         }
     }
 
-    public void checkIn(int id) {
+    public void checkIn(int id, int workerID) {
         try {
-            String query = "INSERT INTO Transactions(bookingID,type,time_stamp) VALUES (" +
-                    id +",'check in',NOW())";
+            String query = "INSERT INTO Transactions(bookingID,type,time_stamp, sID) VALUES (" +
+                    id +",'check in',NOW(), " + workerID + ")";
             ResultSet resultSet = dbWrapper.insertToDb(query);
             resultSet.next();
             System.out.println("Succesfully checked in reservation.\n");
         } catch (SQLException sqlException) {
-            System.out.println("Error adding guest. In Model.createGuest");
+            System.out.println("Error adding guest. In Model.checkIn");
+            sqlException.printStackTrace();
+        }
+    }
+
+    public void checkOut(int id, int workerID) {
+        try {
+            String query = "INSERT INTO Transactions(bookingID,type,time_stamp, sID) VALUES (" +
+                    id +",'check out',NOW(), " + workerID + ")";
+            ResultSet resultSet = dbWrapper.insertToDb(query);
+            resultSet.next();
+            System.out.println("Succesfully checked out reservation.\n");
+        } catch (SQLException sqlException) {
+            System.out.println("Error adding guest. In Model.checkOut");
             sqlException.printStackTrace();
         }
     }
@@ -343,6 +356,24 @@ public class Model {
         }catch (Exception e) {
             System.out.println("Error ");
             e.printStackTrace();
+        }
+    }
+
+    public void displayVacantRoomsByDate(LocalDate startDate, LocalDate endDate) {
+        try {
+            ResultSet resultSet = dbWrapper.retrieveFromDb("SELECT roomID FROM Rooms");
+            if ( resultSet.next() == false) {
+                System.out.println("All rooms are taken\n");
+            } else {
+                do {
+                    if(roomIsAvailable(resultSet.getString(1),startDate,endDate))
+                        System.out.println(resultSet.getString(1));
+                } while (resultSet.next());
+            }
+        }
+        catch (SQLException sqlException){
+            System.out.println("Error with SQL query");
+            sqlException.printStackTrace();
         }
     }
 }
