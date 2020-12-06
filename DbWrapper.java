@@ -1,4 +1,5 @@
 import java.sql.*;
+import java.time.LocalDate;
 
 /**
  * Class contains abstractions for Db access
@@ -42,19 +43,24 @@ public class DbWrapper {
         }
     }
 
-    void callArchive(String sqlQuery){
-        ResultSet resultSet = null;
+    void callArchive(LocalDate localDate){
+
+
+
         //        Connection conn = DriverManager.getConnection();
 //        String query = "{call archiveTransactions('"+date+"');}";
 //        CallableStatement stmt = conn.prepareCall(query);
         try {
-            CallableStatement stmt = connection.prepareCall(sqlQuery);
+            System.out.println("\nCalling the archive procedure.");
+            CallableStatement cs = connection.prepareCall("{CALL archiveTransactions(?)}");
+            cs.setString(1,localDate.toString());
+            ResultSet resultSet = cs.executeQuery();
+
+//            CallableStatement stmt = connection.prepareCall(sqlQuery);
 
         } catch (SQLException sqlException){
-            System.out.println("Error with SQL: DbWrapper.callArchive: " + sqlQuery);
+            System.out.println("Error with SQL: DbWrapper.callArchive.");
             sqlException.printStackTrace();
-        } finally {
-
         }
     }
 }

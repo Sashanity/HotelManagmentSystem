@@ -375,8 +375,8 @@ public class Model {
     }
     public void archiveTransactions(LocalDate date) {
         try {
-            String query = "{call archiveTransactions('"+date+"');}";
-            dbWrapper.callArchive(query);
+            //String query = "{call archiveTransactions('"+date+"');}";
+            dbWrapper.callArchive(date);
             System.out.println("Transactions have been archived\n");
         }catch (Exception e) {
             System.out.println("Error ");
